@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 """One-Line Roast: the gadget you use every day.
 
-Roasts the smartwatch: it spends eight hours watching you sit, then
-buzzes to congratulate you for standing up -- eight hours of
-surveillance, one second of applause, from a gadget that charges you
-for the privilege of being watched.
+Roasts the smartwatch. First draft applauded the bare minimum; the
+tighter cut keeps the contrast that does the work -- eight hours of
+surveillance, one second of applause -- and drops the price tag, which
+was a second joke competing with the first. One gadget, one absurdity,
+one line.
 """
 
 import os
 
 ROAST = (
     "My smartwatch watched me sit for eight hours, then buzzed to "
-    "congratulate me for standing up -- a $300 babysitter that applauds "
-    "the bare minimum."
+    "congratulate me for standing up -- eight hours of surveillance, "
+    "one second of applause."
 )
 
 OUTPUT_PATH = os.path.join(os.environ.get("OUTPUT_DIR", "/output"), "entry.txt")
@@ -36,6 +37,11 @@ def main() -> None:
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(text)
+    # Read it back: the file must hold exactly the roast, one line.
+    with open(OUTPUT_PATH, encoding="utf-8") as f:
+        written = f.read()
+    if written != text:
+        raise ValueError("entry.txt does not hold exactly the roast")
     print(f"wrote {len(text)} chars to {OUTPUT_PATH}")
 
 
